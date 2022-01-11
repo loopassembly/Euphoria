@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, AnonymousUser,BaseUserManager,\
     PermissionsMixin, User, UserManager
@@ -28,11 +29,21 @@ class UserProfileManager(BaseUserManager):
 
         return user
 
-class UserProfile(AbstractBaseUser , PermissionsMixin):
+class Modules(models.Model):
+    module_name = models.CharField(max_length=50)
+    module_duaration = models.IntegerField()
+    class_room = models.IntegerField()
+
+    def __str__(self):
+        return self.module_name
+
+class UserProfile(AbstractBaseUser , PermissionsMixin ,models.Model):
     '''Database model for users in the system'''
     email = models.EmailField( max_length=254,unique=True)
     USERNAME_FIELD = 'email'
     name =  models.CharField( max_length=50)
+    modules = models.ManyToManyField(Modules)
+
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
@@ -52,5 +63,19 @@ class UserProfile(AbstractBaseUser , PermissionsMixin):
     def __str__(self):
         '''return string representation of user'''
         return self.email
+
+
+
     
- 
+class ProfileFeedItem(models.Model):
+     '''Profile  status Update'''
+     user_profile = models.ForeignKey(
+          settings.AUTH_USER_MODEL,
+          on_delete=models.CASCADE
+     )
+     status_text = models.CharField( max_length=255)
+     created_on = models.DateTimeField(auto_now_add = True)
+
+     def __str__(self):
+         '''return the model as string'''
+         return self.status_text

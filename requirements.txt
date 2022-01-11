@@ -1,5 +1,6 @@
 Django==4.0
 djangorestframework==3.13.1
+djangorestframework-jwt == 1.11.0 
 # psycopg2 == 2.9.3 
 tzdata == 2021.5 
 flake8 == 4.0.1
