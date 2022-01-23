@@ -1,8 +1,12 @@
-import requests
-import json
-response_API = requests.get("http://127.0.0.1:8000/api/profile/?format=json")
-data = response_API.text
-# print(data)
-print(json.loads(data))
-# info = parse_json['1']
-# print("Info about API:\n", info)
+
+
+
+
+
+OrderedDict=([('id', 158), ('item_name', 'new'), ('cost', 30)])
+li=[OrderedDict]
+val_data_len=len(li[0])
+
+if li ==1 and li[0][1]:
+
+    

@@ -9,7 +9,14 @@ COPY ./requirements.txt /requirements.txt
 
 RUN apk update && apk upgrade
 RUN apk add gcc
-RUN apk add  musl-dev
+RUN apk add  musl-dev\
+    && apk add postgresql \
+    && apk add postgresql-dev \
+    && pip install psycopg2 \
+    && apk add jpeg-dev zlib-dev libjpeg 
+    
+
+
 RUN pip install --trusted-host pypi.python.org -r /requirements.txt
 # RUN apk del .tmp-build-deps
 RUN mkdir /app

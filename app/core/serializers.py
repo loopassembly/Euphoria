@@ -36,13 +36,13 @@ class UserProfileSerializer(serializers.ModelSerializer):
             password = validated_data['password']
 
         )
-        user2 = models.UserProfile.objects.create_user(
-            email = validated_data['email'],
-            name=validated_data['name'],
-            password = validated_data['password']
+        # user2 = models.UserProfile.objects.create_user(
+        #     email = validated_data['email'],
+        #     name=validated_data['name'],
+        #     password = validated_data['password']
 
-        )
-        return user,user2
+        # )
+        return user
 
 class ProfileFeedItemSerializer(serializers.ModelSerializer):
     '''serializer profile feed items'''

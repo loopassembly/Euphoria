@@ -1,12 +1,16 @@
-from django.conf import settings
-from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, AnonymousUser,BaseUserManager,\
-    PermissionsMixin, User, UserManager
-from django.db.models.fields import EmailField
 
+
+from django.db import models
+from django.contrib.auth.models import AbstractUser,BaseUserManager,\
+     AbstractBaseUser,PermissionsMixin
+
+# from model_utils import Choices
 # Create your models here.
-class UserProfileManager(BaseUserManager):
-    '''manager for user profiles'''
+
+
+
+class UserManager(BaseUserManager):
+    
     
     def create_user(self,email,name,password=None):
         '''create new user profile'''
@@ -29,10 +33,7 @@ class UserProfileManager(BaseUserManager):
 
         return user
 
-
-
-class UserProfile(AbstractBaseUser , PermissionsMixin ,models.Model):
-    '''Database model for users in the system'''
+class User( AbstractBaseUser,PermissionsMixin,models.Model):
     email = models.EmailField( max_length=254,unique=True)
     USERNAME_FIELD = 'email'
     name =  models.CharField( max_length=50)
@@ -41,7 +42,7 @@ class UserProfile(AbstractBaseUser , PermissionsMixin ,models.Model):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
-    objects = UserProfileManager()
+    objects = UserManager()
 
    
     REQUIRED_FIELDS = ['name']
@@ -58,6 +59,34 @@ class UserProfile(AbstractBaseUser , PermissionsMixin ,models.Model):
         '''return string representation of user'''
         return self.email
 
+    # @property
+    # def items(self):
+    #     return self.items_set.all()
 
 
-    
+
+class Menu(models.Model):
+    STATUS =(
+       ('available', 'Available'),
+       ('unavailable', 'Unavailable')
+       )
+
+    FOOD_TYPE=(
+        ('veg','VEG'),
+        ('non-veg','NON-VEG'),
+        ('drinks','DRINKS'),
+        ('sweets','SWEETS')
+
+    )
+   
+
+    menu =models.ForeignKey(User, on_delete=models.CASCADE,related_name='items')
+    item_name = models.CharField( max_length=50)
+    item_image = models.ImageField(upload_to="menu-images", height_field=None, width_field=None, max_length=None,null=True,blank=True)
+    cost =models.IntegerField()
+    bake_time =models.CharField( max_length=50)
+    status=models.CharField(max_length=50,choices=STATUS)
+    food_type=models.CharField(max_length=50,choices=FOOD_TYPE)
+
+    def __str__(self):
+      return self.item_name

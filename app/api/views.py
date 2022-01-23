@@ -1,14 +1,22 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .serializers import PersonSerializer, SpeciesSerializer
-from .models import Person, Species
+from .serializers import SingerSerializer,SongSerializer,MenuSerializer,HotelSerializer
+from .models import Hotel, Menu, Singer,Song
 
 
-class PersonViewSet(viewsets.ModelViewSet):
-   queryset = Person.objects.all()
-   serializer_class = PersonSerializer
+class SingerViewSet(viewsets.ModelViewSet):
+   queryset = Singer.objects.all()
+   serializer_class = SingerSerializer
 
 
-class SpeciesViewSet(viewsets.ModelViewSet):
-   queryset = Species.objects.all()
-   serializer_class = SpeciesSerializer
+class SongViewSet(viewsets.ModelViewSet):
+   queryset = Song.objects.all()
+   serializer_class = SongSerializer
+
+class MenuViewSet(viewsets.ModelViewSet):
+   queryset = Menu.objects.all()
+   serializer_class = MenuSerializer
+
+class HotelViewSet(viewsets.ModelViewSet):
+   queryset = Hotel.objects.all()
+   serializer_class = HotelSerializer
