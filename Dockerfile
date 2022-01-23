@@ -21,7 +21,9 @@ RUN pip install --trusted-host pypi.python.org -r /requirements.txt
 # RUN apk del .tmp-build-deps
 RUN mkdir /app
 WORKDIR /app
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# CMD ["python", "manage.py", "runserver"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "mysite.wsgi:application"]
 COPY ./app /app
 RUN adduser -D user
 USER user
