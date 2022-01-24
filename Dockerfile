@@ -24,10 +24,11 @@ RUN mkdir /app
 WORKDIR /app
 
 # collect static files
-# RUN  python manage.py collectstatic --noinput 
+
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 # CMD ["python", "manage.py", "runserver"]
 CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "app.wsgi:application"]
 COPY ./app /app
+RUN  python manage.py collectstatic --noinput 
 RUN adduser -D user
 USER user
