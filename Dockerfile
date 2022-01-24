@@ -18,12 +18,16 @@ RUN apk add  musl-dev\
 
 
 RUN pip install --trusted-host pypi.python.org -r /requirements.txt
+
 # RUN apk del .tmp-build-deps
 RUN mkdir /app
 WORKDIR /app
+
+# collect static files
+# RUN  python manage.py collectstatic --noinput 
 # CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 # CMD ["python", "manage.py", "runserver"]
-CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "mysite.wsgi:application"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "app.wsgi:application"]
 COPY ./app /app
 RUN adduser -D user
 USER user
